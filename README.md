@@ -92,7 +92,7 @@ Colour-Detection/
 ## 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/Colour-Detection.git
+git clone https://github.com/subham-paul/Colour-Detection.git
 ```
 
 ```bash
