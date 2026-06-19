@@ -1,0 +1,544 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section with Video Background -->
+<section class="hero-section position-relative overflow-hidden" style="height: 100vh;">
+    <!-- Video Background with Sound -->
+    <video autoplay muted loop playsinline class="position-absolute w-100 h-100" style="object-fit: cover; z-index: 1;">
+        <source src="{{ url_for('static', filename='videos/your_video_name.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Dark Overlay -->
+    <div class="position-absolute w-100 h-100" style="background: rgba(0,0,0,0.5); z-index: 2;"></div>
+
+    <div class="container position-relative h-100 d-flex align-items-center" style="z-index: 3;">
+        <div class="row w-100 align-items-center">
+            <div class="col-lg-8 text-white">
+                <h1 class="display-3 fw-bold mb-4">Real-time Color Detection</h1>
+                <p class="lead mb-4 fs-4">Advanced computer vision system for detecting and tracking multiple colors in
+                    real-time using OpenCV and Python.</p>
+                <a href="/detection" class="btn btn-primary btn-lg px-5 py-3">
+                    <i class="fas fa-play me-2"></i> Start Detection
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sound Control Button -->
+    <div class="position-absolute bottom-0 end-0 m-4" style="z-index: 4;">
+        <button id="soundToggle" class="btn btn-light btn-sm">
+            <i class="fas fa-volume-mute"></i> Unmute Sound
+        </button>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section py-5">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2 class="display-4 fw-bold gradient-text">Key Features</h2>
+            <p class="lead text-muted">Advanced color detection capabilities powered by cutting-edge technology</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Multi-Color Detection Feature -->
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Multi-Color Detection</h3>
+                    <p>Detect blue, green, red, yellow, and purple objects simultaneously with high accuracy and
+                        precision.</p>
+                    <div class="color-samples">
+                        <span class="color-sample blue" title="Blue"></span>
+                        <span class="color-sample green" title="Green"></span>
+                        <span class="color-sample red" title="Red"></span>
+                        <span class="color-sample yellow" title="Yellow"></span>
+                        <span class="color-sample purple" title="Purple"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Real-time Tracking Feature -->
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>Real-time Tracking</h3>
+                    <p>Track object movements and display trajectories in real-time with smooth, high-performance
+                        rendering.</p>
+                    <div class="tracking-demo">
+                        <div class="tracking-line"></div>
+                        <div class="tracking-dot"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customizable Settings Feature -->
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <h3>Customizable Settings</h3>
+                    <p>Easily toggle colors on/off and adjust detection parameters through intuitive, user-friendly
+                        controls.</p>
+                    <div class="settings-demo">
+                        <div class="toggle-switch active">
+                            <span>Blue</span>
+                        </div>
+                        <div class="toggle-switch active">
+                            <span>Green</span>
+                        </div>
+                        <div class="toggle-switch">
+                            <span>Red</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Parallax Video Section -->
+<section class="parallax-video position-relative overflow-hidden" style="height: 80vh;">
+    <video autoplay muted loop playsinline id="parallaxVideo" class="position-absolute top-0 start-0 w-100 h-100"
+        style="object-fit: cover; transform: translateY(0);">
+        <source src="{{ url_for('static', filename='videos/fish.mp4') }}" type="video/mp4">
+    </video>
+</section>
+
+<section class="after-parallax-section">
+    <div class="container text-center">
+        <h2 class="display-3 fw-bold mb-3 gradient-text">Experience the Depth</h2>
+        <p class="lead mb-4 text-light">
+            Scroll down to see how the parallax effect creates a dynamic sense of depth. 
+            Our advanced color detection system stands out just like this effect!
+        </p>
+        <a href="/detection" class="btn btn-lg btn-gradient px-5 py-3">
+            <i class="fas fa-play me-2"></i> Try It Yourself
+        </a>
+    </div>
+</section>
+
+<style>
+    /* Features Section Styles */
+    .features-section {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .features-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+    }
+
+    .gradient-text {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .feature-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2.5rem 2rem;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 1.5rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .feature-card:hover .feature-icon {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 12px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .feature-card h3 {
+        color: #2c3e50;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+
+    .feature-card p {
+        color: #6c757d;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Color Samples */
+    .color-samples {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 1rem;
+    }
+
+    .color-sample {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .color-sample:hover {
+        transform: scale(1.2);
+    }
+
+    .color-sample.blue {
+        background: #3498db;
+    }
+
+    .color-sample.green {
+        background: #2ecc71;
+    }
+
+    .color-sample.red {
+        background: #e74c3c;
+    }
+
+    .color-sample.yellow {
+        background: #f1c40f;
+    }
+
+    .color-sample.purple {
+        background: #9b59b6;
+    }
+
+    /* Tracking Demo */
+    .tracking-demo {
+        position: relative;
+        height: 60px;
+        margin-top: 1rem;
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .tracking-line {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #667eea, transparent);
+        animation: trackingLine 3s ease-in-out infinite;
+    }
+
+    .tracking-dot {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 12px;
+        height: 12px;
+        background: #e74c3c;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        animation: trackingDot 3s ease-in-out infinite;
+        box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+    }
+
+    @keyframes trackingLine {
+
+        0%,
+        100% {
+            opacity: 0.3;
+        }
+
+        50% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes trackingDot {
+        0% {
+            left: 10%;
+        }
+
+        50% {
+            left: 90%;
+        }
+
+        100% {
+            left: 10%;
+        }
+    }
+
+    /* Settings Demo */
+    .settings-demo {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 1rem;
+        align-items: center;
+    }
+
+    .toggle-switch {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 15px;
+        background: #f8f9fa;
+        border-radius: 25px;
+        border: 2px solid #e9ecef;
+        transition: all 0.3s ease;
+        min-width: 120px;
+        justify-content: space-between;
+    }
+
+    .toggle-switch.active {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-color: #667eea;
+        color: white;
+    }
+
+    .toggle-switch::before {
+        content: '';
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #6c757d;
+        transition: all 0.3s ease;
+    }
+
+    .toggle-switch.active::before {
+        background: white;
+        transform: translateX(8px);
+    }
+
+    .toggle-switch span {
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    /* Existing Styles */
+    .tech-icon {
+        transition: transform 0.3s ease;
+    }
+
+    .tech-icon:hover {
+        transform: scale(1.1);
+    }
+
+    .color-demo {
+        transition: transform 0.3s ease;
+    }
+
+    .color-demo:hover {
+        transform: scale(1.1);
+    }
+
+    .hero-section {
+        margin-top: -80px;
+        padding-top: 80px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .feature-card {
+            padding: 2rem 1.5rem;
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            font-size: 1.8rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .section-header h2 {
+            font-size: 2.5rem;
+        }
+
+        .features-section {
+            padding: 3rem 0;
+        }
+    }
+
+    /* .parallax */
+    .parallax-video video {
+        object-fit: cover;
+        transform: translateY(0);
+        transition: transform 0.2s linear;
+    }
+
+    .parallax-video {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .parallax-video .container {
+        position: relative;
+        z-index: 2;
+    }
+
+     .after-parallax-section {
+        position: relative;
+        min-height: 60vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        clip-path: polygon(0 5%, 100% 0%, 100% 100%, 0% 100%);
+        overflow: hidden;
+    }
+
+    /* Optional subtle moving background for parallax feel */
+    .after-parallax-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: url('{{ url_for("static", filename="images/abstract-bg.png") }}') repeat;
+        background-size: cover;
+        opacity: 0.15;
+        animation: floatBG 20s linear infinite;
+    }
+
+    @keyframes floatBG {
+        0% { transform: translate(0,0); }
+        50% { transform: translate(20px, -20px); }
+        100% { transform: translate(0,0); }
+    }
+
+    .after-parallax-section .gradient-text {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .after-parallax-section p {
+        font-size: 1.25rem;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .btn-gradient {
+        background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+        color: white;
+        font-weight: 600;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .btn-gradient:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+    }
+
+    @media (max-width: 768px) {
+        .after-parallax-section h2 {
+            font-size: 2rem;
+        }
+        .after-parallax-section p {
+            font-size: 1rem;
+        }
+    }
+
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const video = document.querySelector('video');
+        const soundToggle = document.getElementById('soundToggle');
+
+        // Unmute video when user clicks the button
+        soundToggle.addEventListener('click', function () {
+            if (video.muted) {
+                video.muted = false;
+                soundToggle.innerHTML = '<i class="fas fa-volume-up"></i> Mute Sound';
+            } else {
+                video.muted = true;
+                soundToggle.innerHTML = '<i class="fas fa-volume-mute"></i> Unmute Sound';
+            }
+        });
+
+        // Ensure video plays properly
+        video.play().catch(function (error) {
+            console.log('Video autoplay failed:', error);
+        });
+    });
+</script>
+<script>
+    window.addEventListener('scroll', function () {
+        const video = document.getElementById('parallaxVideo');
+        if (!video) return;
+
+        const rect = video.parentElement.getBoundingClientRect();
+        const scrollPosition = window.scrollY;
+        const sectionTop = rect.top + scrollPosition;
+
+        // Only apply parallax when the section is in view
+        if (scrollPosition + window.innerHeight > sectionTop &&
+            scrollPosition < sectionTop + rect.height) {
+
+            const offset = (scrollPosition - sectionTop) * 0.35;
+            video.style.transform = `translateY(${offset}px)`;
+        }
+    });
+</script>
+
+
+{% endblock %}
